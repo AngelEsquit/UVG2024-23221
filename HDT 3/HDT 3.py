@@ -1,5 +1,5 @@
 from multiprocessing import heap
-import random
+import random, timeit
 import csv
 
 from gnome import gnome_sort
@@ -10,6 +10,41 @@ from Radixsort import radixSort
 from selection import selection_sort
 from shellSort import shell_sort
 
+def run_algorithmsDoubleOrden(ascDescBoolean):
+    numerosAleatorios = leerCSV("numeros.csv")
+    start_time = timeit.default_timer()
+    quicksort(numerosAleatorios, 0, len(numerosAleatorios) - 1, ascDescBoolean)
+    print("quickSort:", timeit.default_timer() - start_time, "seconds")
+
+    start_time = timeit.default_timer()
+    gnome_sort(numerosAleatorios, ascDescBoolean)
+    gnome_sort(numerosAleatorios, ascDescBoolean)
+    print("gnomeSort:", timeit.default_timer() - start_time, "seconds")
+
+    start_time = timeit.default_timer()
+    heap_sort(numerosAleatorios, ascDescBoolean)
+    heap_sort(numerosAleatorios, ascDescBoolean)
+    print("heapSort:", timeit.default_timer() - start_time, "seconds")
+
+    start_time = timeit.default_timer()
+    merge_sort(numerosAleatorios, ascDescBoolean)
+    merge_sort(numerosAleatorios, ascDescBoolean)
+    print("mergeSort:", timeit.default_timer() - start_time, "seconds")
+
+    start_time = timeit.default_timer()
+    radixSort(numerosAleatorios, ascDescBoolean)
+    radixSort(numerosAleatorios, ascDescBoolean)
+    print("radixSort:", timeit.default_timer() - start_time, "seconds")
+
+    start_time = timeit.default_timer()
+    selection_sort(numerosAleatorios, ascDescBoolean)
+    selection_sort(numerosAleatorios, ascDescBoolean)
+    print("selectionSort:", timeit.default_timer() - start_time, "seconds")
+
+    start_time = timeit.default_timer()
+    shell_sort(numerosAleatorios, ascDescBoolean)
+    shell_sort(numerosAleatorios, ascDescBoolean)
+    print("shellSort:", timeit.default_timer() - start_time, "seconds")
 
 def leerCSV(ruta_archivo):
     numeros = []
@@ -19,9 +54,9 @@ def leerCSV(ruta_archivo):
             numeros.append(int(fila[0]))
     return numeros
 
-def generarNum():
+def generarNum(num):
     # Generar una lista de números enteros al azar
-    numeros = [random.randint(0, 10000) for _ in range(3000)]
+    numeros = [random.randint(0, 10000) for _ in range(num)]
 
     # Especificar la ruta del archivo CSV
     ruta_archivo = "numeros.csv"
@@ -31,42 +66,26 @@ def generarNum():
         escritor_csv = csv.writer(archivo)
         escritor_csv.writerows([[numero] for numero in numeros])  # Escribir números
 
-    print("Los números se han guardado exitosamente en el archivo CSV.")
+    print("-----------------------------\n\n")
 
-while True:    
-    print("Algoritmos de Ordenamiento:")
-    print("1. Selection Sort")
-    print("2. Insertion Sort")
-    print("3. Merge Sort")
-    print("4. Quick Sort")
-    print("5. Heap Sort")
-    print("6. Radix Sort")
-    
-    sort_option = int(input("Seleccione el algoritmo de ordenamiento (1-6): "))
-    ascendente = input("Ordenar de forma ascendente? (s/n): ").lower() == "s"
-    if sort_option == 1:
-        generarNum()
-        sorted_numbers = gnome_sort(leerCSV("numeros.csv"), ascendente)
-    elif sort_option == 2:
-        generarNum()
-        sorted_numbers = merge_sort(leerCSV("numeros.csv"), ascendente)
-    elif sort_option == 3:
-        generarNum()
-        sorted_numbers = quicksort(leerCSV("numeros.csv"), 0, len(leerCSV("numeros.csv")) - 1, ascendente)
-    elif sort_option == 4:
-        generarNum()
-        sorted_numbers = radixSort(leerCSV("numeros.csv"), ascendente)
-    elif sort_option == 5:
-        generarNum()
-        sorted_numbers = selection_sort(leerCSV("numeros.csv"), ascendente)
-    elif sort_option == 6:
-        generarNum()
-        sorted_numbers = shell_sort(leerCSV("numeros.csv"), ascendente)
-    elif sort_option == 7:
-        generarNum()
-        sorted_numbers = heap_sort(leerCSV("numeros.csv"), ascendente)
-    else:
-        print("Opción inválida")
-        sorted_numbers = []
+num = 300
 
-    print("Números ordenados:", sorted_numbers)
+option = int(input("Desea orden ascendente(1) o descendente(0)?\n"))
+if option == 1:
+    ascDescBoolean = True
+    while num <= 3000:
+        generarNum(num)
+        print("Cantidad de números: ", num, "\n")
+
+        run_algorithmsDoubleOrden(ascDescBoolean)
+        num += 300
+elif option==0:
+    ascDescBoolean = False
+    while num <= 3000:
+        generarNum(num)
+        print("\n\nCantidad de números: ", num, "\n")    
+
+        run_algorithmsDoubleOrden(ascDescBoolean)
+        num += 300
+else:
+    print("Opción inválida")
