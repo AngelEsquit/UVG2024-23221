@@ -10,7 +10,6 @@ ruta_archivo = "numeros.csv"
 # Guardar los números en el archivo CSV
 with open(ruta_archivo, "w", newline="") as archivo:
     escritor_csv = csv.writer(archivo)
-    escritor_csv.writerow(["Numeros"])  # Escribir encabezado
     escritor_csv.writerows([[numero] for numero in numeros])  # Escribir números
 
 print("Los números se han guardado exitosamente en el archivo CSV.")
