@@ -1,27 +1,25 @@
-import java.util.EnumSet;
-
 public class UsuarioFactory {
     public static final int Estudiante = 0;
     public static final int Docente = 1;
     public static final int PersonalAdministrativo = 2;
     public static final int Auditor = 3;
 
-    public static Usuario getUsuarioType(int usuarioType){
+    public static Usuario getUsuarioType(int usuarioType, String nombre, String apellido, int id, String curso){
         switch (usuarioType) {
             case Estudiante:
-                return new Estudiante();    
+                return new Estudiante(nombre, apellido, id, curso);    
 
             case Docente:
-                return new XMLDataSource();
+                return new Docente();
 
             case PersonalAdministrativo:
-                return new JSONDataSource();
+                return new PersonalAdministrativo();
 
             case Auditor:
-                return new JSONDataSource();
+                return new Auditor();
         
             default:
-                return new CSVDataSource();
+                return new Estudiante(nombre, apellido, id, curso);
         }
     }
 }

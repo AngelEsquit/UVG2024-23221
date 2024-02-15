@@ -2,11 +2,21 @@ public class Estudiante implements Usuario {
     private String nombre;
     private String apellido;
     private int id;
+    private String curso;
 
-    public Estudiante(String nombre, String apellido, int id) {
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
+
+    public Estudiante(String nombre, String apellido, int id, String curso) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = id;
+        this.curso = curso;
     }
 
     public int getId() {
