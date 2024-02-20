@@ -2,8 +2,12 @@ import java.util.ArrayList;
 
 public class Curso {
     private String nombre;
-    
-    ArrayList<Usuario> estudiantes = new ArrayList<Usuario>();
+    private int nota;
+
+    public Curso(String nombre, int nota) {
+        this.nombre = nombre;
+        this.nota = nota;
+    }
 
     public String getNombre() {
         return nombre;
@@ -13,11 +17,11 @@ public class Curso {
         this.nombre = nombre;
     }
 
-    public ArrayList<Usuario> getEstudiantes() {
-        return estudiantes;
+    public int getNota() {
+        return nota;
     }
 
-    public void setEstudiantes(ArrayList<Usuario> estudiantes) {
-        this.estudiantes = estudiantes;
+    public void setNota(int nota) {
+        this.nota = nota;
     }
 }

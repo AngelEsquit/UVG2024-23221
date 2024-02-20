@@ -1,22 +1,16 @@
+import java.util.ArrayList;
+
 public class Estudiante implements Usuario {
     private String nombre;
     private String apellido;
     private int id;
-    private String curso;
+    private ArrayList<Curso> cursos = new ArrayList<Curso>();
+    private ArrayList<Pago> pagos = new ArrayList<Pago>();
 
-    public String getCurso() {
-        return curso;
-    }
-
-    public void setCurso(String curso) {
-        this.curso = curso;
-    }
-
-    public Estudiante(String nombre, String apellido, int id, String curso) {
+    public Estudiante(int id, String nombre, String apellido) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.id = id;
-        this.curso = curso;
     }
 
     public int getId() {
@@ -41,6 +35,41 @@ public class Estudiante implements Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public ArrayList<Curso> getCursos() {
+        return cursos;
+    }
+
+    public void setCursos(ArrayList<Curso> cursos) {
+        this.cursos = cursos;
+    }
+
+    public ArrayList<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(ArrayList<Pago> pagos) {
+        this.pagos = pagos;
+    }
+
+    public void realizarPago(String fecha, int monto) {
+        Pago pago = new Pago(fecha, monto);
+        pagos.add(pago);
+    }
+
+    public void consultarPagos() {
+        for (Pago pago : pagos) {
+            System.out.println("Fecha: " + pago.getFecha() + " Monto: " + pago.getMonto());
+        }
+    }
+
+    public void consultarNota(String curso) {
+        for (Curso c : cursos) {
+            if (c.getNombre().equals(curso)) {
+                System.out.println("Nota: " + c.getNota());
+            }
+        }
     }
     
     @Override
