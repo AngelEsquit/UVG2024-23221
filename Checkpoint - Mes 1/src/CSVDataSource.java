@@ -35,9 +35,9 @@ public class CSVDataSource implements IDataSource {
             // Escribir encabezados al archivo CSV
             writer.write("ID,First Name,Last Name\n");
 
-            // Escribir cada estudiante al archivo CSV
+            // Escribir cada curso al archivo CSV
             for (Curso curso : cursos) {
-                writer.write(String.format("%d,%s,%s\n", estudiante.getId(), estudiante.getNombre(), estudiante.getApellido()));
+                writer.write(String.format("%d,%s,%s\n", curso.getNombre(), curso.getNota(), estudiante.getApellido()));
             }
 
             writer.close();

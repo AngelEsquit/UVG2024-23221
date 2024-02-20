@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /* Utilizando el patron de diseño "Factory" cree un programa que permita el acceso el sistema universitario para Estudiantes, Docentes, Personal Administrativo y Auditoría Externa.
@@ -61,6 +62,8 @@ Fecha de pago (String)*/
 
 public class Main {
     public static void main(String[] args) {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el nombre de usuario: ");
         String nombreUsuario = scanner.nextLine();
@@ -68,6 +71,21 @@ public class Main {
         int idContraseña = scanner.nextInt();
 
         // Lógica de inicio de sesión
+
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == idContraseña && usuario.getNombre().equals(nombreUsuario)) {
+                System.out.println("Bienvenido " + usuario.getNombre());
+                if (usuario instanceof Estudiante) {
+                    usuario.mostrarOpciones();
+                } else if (usuario instanceof Docente) {
+                    usuario.mostrarOpciones();
+                } else if (usuario instanceof PersonalAdministrativo) {
+                    usuario.mostrarOpciones();
+                } else if (usuario instanceof AuditorExterno) {
+                    usuario.mostrarOpciones();
+                }
+            }
+        }
 
         int option = scanner.nextInt();
         
