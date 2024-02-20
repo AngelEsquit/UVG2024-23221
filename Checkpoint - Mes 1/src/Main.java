@@ -88,6 +88,5 @@ public class Main {
                 System.out.println("Opción inválida");
                 break;
         }
-        
     }
 }
