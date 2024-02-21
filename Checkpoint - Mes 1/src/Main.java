@@ -158,6 +158,7 @@ public class Main {
                             System.out.println("Ingrese el monto del pago: ");
                             int monto = scanner.nextInt();
                             scanner.nextLine();
+                            ((Docente) tUsuario).realizarPago(fecha, monto);
                             System.out.println("Cobro realizado correctamente");
                             break;
                         case 3:
@@ -174,6 +175,56 @@ public class Main {
                     System.out.println("Ingrese la opción que desea realizar: ");
                     opcion = scanner.nextInt();
                     scanner.nextLine();
+
+                    switch (opcion) {
+                        case 1:
+                            System.out.println("Ingrese el tipo de lo que desea crear: ");
+                            System.out.println("1. Estudiante");
+                            System.out.println("2. Docente");
+                            System.out.println("3. Curso");
+
+                            int tipo = scanner.nextInt();
+                            scanner.nextLine();
+
+                            switch (tipo) {
+                                case 1:
+                                    System.out.println("Ingrese el nombre del estudiante: ");
+                                    String nombre = scanner.nextLine();
+                                    System.out.println("Ingrese el apellido del estudiante: ");
+                                    String apellido = scanner.nextLine();
+                                    System.out.println("Ingrese el ID del estudiante: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    ((PersonalAdministrativo) tUsuario).crearEstudiante(nombre, apellido, id);
+                                    break;
+                                case 2:
+                                    System.out.println("Ingrese el nombre del docente: ");
+                                    String nombre = scanner.nextLine();
+                                    System.out.println("Ingrese el apellido del docente: ");
+                                    String apellido = scanner.nextLine();
+                                    System.out.println("Ingrese el ID del docente: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    ((PersonalAdministrativo) tUsuario).crearDocente(nombre, apellido, id);
+                                    break;
+                                case 3:
+                                    System.out.println("Ingrese el nombre del curso: ");
+                                    String nombre = scanner.nextLine();
+                                    System.out.println("Ingrese el ID del curso: ");
+                                    int id = scanner.nextInt();
+                                    scanner.nextLine();
+                                    ((PersonalAdministrativo) tUsuario).crearCurso(nombre, id);
+                                    break;
+                                default:
+                                    System.out.println("Opción inválida");
+                                    break;
+                            }
+
+                            break;
+                        default:
+                            System.out.println("Opción inválida");
+                            break;
+                    }
                     break;
                 case 4:
                     // Auditor Externo login logic

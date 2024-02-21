@@ -4,6 +4,15 @@ public class Docente implements Usuario {
     private String nombre;
     private String apellido;
     private int id;
+    private ArrayList<Pago> pagos = new ArrayList<Pago>();
+
+    public ArrayList<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(ArrayList<Pago> pagos) {
+        this.pagos = pagos;
+    }
 
     public String getNombre() {
         return nombre;
@@ -55,6 +64,17 @@ public class Docente implements Usuario {
             System.out.println("Nota ingresada correctamente");
         } else {
             System.out.println("No se encontró el estudiante o el curso");
+        }
+    }
+
+    public void realizarPago(String fecha, int monto) {
+        Pago pago = new Pago(fecha, monto);
+        pagos.add(pago);
+    }
+
+    public void historialPagos() {
+        for (Pago pago : pagos) {
+            System.out.println("Fecha: " + pago.getFecha() + " Monto: " + pago.getMonto());
         }
     }
 
