@@ -38,7 +38,7 @@ public class Docente implements Usuario {
         this.id = id;
     }
 
-    public Docente(String nombre, String apellido, int id) {
+    public Docente(int id, String nombre, String apellido) {
     this.nombre = nombre;
     this.apellido = apellido;
     this.id = id;

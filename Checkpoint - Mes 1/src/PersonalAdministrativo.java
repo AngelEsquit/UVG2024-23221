@@ -27,6 +27,19 @@ public class PersonalAdministrativo implements Usuario {
         this.id = id;
     }
 
+    public Estudiante crearEstudiante(int id, String nombre, String apellido) {
+        return new Estudiante(id, nombre, apellido);
+    }
+
+    public Docente crearDocente(int id, String nombre, String apellido) {
+        return new Docente(id, nombre, apellido);
+    }
+
+    public Curso crearCurso(int id, String nombre) {
+        return new Curso(nombre, id);
+    }
+
+
     @Override
     public void mostrarOpciones() {
         System.out.println("Personal Administrativo:");

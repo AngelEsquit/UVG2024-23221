@@ -63,11 +63,16 @@ Fecha de pago (String)*/
 public class Main {
     public static void main(String[] args) {
         ArrayList<Usuario> usuarios = new ArrayList<>();
+        ArrayList<Curso> cursos = new ArrayList<>();
         int tipoUsuario = 0;
         boolean encontrado = false;
         Usuario tUsuario = null;
         int cursoNum = 1;
         int opcion = 0;
+
+        String nombre;
+        String apellido;
+        int id;
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el nombre de usuario: ");
@@ -145,7 +150,7 @@ public class Main {
                     switch (opcion) {
                         case 1:
                             System.out.println("Ingrese el nombre del estudiante: ");
-                            String nombre = scanner.nextLine();
+                            nombre = scanner.nextLine();
                             System.out.println("Ingrese el nombre del curso: ");
                             String curso = scanner.nextLine();
                             System.out.println("Ingrese la nota del estudiante: ");
@@ -189,36 +194,38 @@ public class Main {
                             switch (tipo) {
                                 case 1:
                                     System.out.println("Ingrese el nombre del estudiante: ");
-                                    String nombre = scanner.nextLine();
+                                    nombre = scanner.nextLine();
                                     System.out.println("Ingrese el apellido del estudiante: ");
-                                    String apellido = scanner.nextLine();
+                                    apellido = scanner.nextLine();
                                     System.out.println("Ingrese el ID del estudiante: ");
-                                    int id = scanner.nextInt();
+                                    id = scanner.nextInt();
                                     scanner.nextLine();
-                                    ((PersonalAdministrativo) tUsuario).crearEstudiante(nombre, apellido, id);
+                                    usuarios.add(((PersonalAdministrativo) tUsuario).crearEstudiante(id, nombre, apellido));
                                     break;
                                 case 2:
                                     System.out.println("Ingrese el nombre del docente: ");
-                                    String nombre = scanner.nextLine();
+                                    nombre = scanner.nextLine();
                                     System.out.println("Ingrese el apellido del docente: ");
-                                    String apellido = scanner.nextLine();
+                                    apellido = scanner.nextLine();
                                     System.out.println("Ingrese el ID del docente: ");
-                                    int id = scanner.nextInt();
+                                    id = scanner.nextInt();
                                     scanner.nextLine();
-                                    ((PersonalAdministrativo) tUsuario).crearDocente(nombre, apellido, id);
+                                    usuarios.add(((PersonalAdministrativo) tUsuario).crearDocente(id, nombre, apellido));
                                     break;
                                 case 3:
                                     System.out.println("Ingrese el nombre del curso: ");
-                                    String nombre = scanner.nextLine();
+                                    nombre = scanner.nextLine();
                                     System.out.println("Ingrese el ID del curso: ");
-                                    int id = scanner.nextInt();
+                                    id = scanner.nextInt();
                                     scanner.nextLine();
-                                    ((PersonalAdministrativo) tUsuario).crearCurso(nombre, id);
+                                    ((PersonalAdministrativo) tUsuario).crearCurso(id, nombre);
                                     break;
                                 default:
                                     System.out.println("Opción inválida");
                                     break;
                             }
+
+                            tipo = 0;
 
                             break;
                         default:
