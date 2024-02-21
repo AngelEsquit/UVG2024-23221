@@ -51,6 +51,12 @@ public class Auditor implements Usuario {
         }
     }
 
+    public void exportarResumen(String tipoArchivo) {
+        System.out.println("Exportando resumen de notas, asistencia y pagos");
+        System.out.println("Tipo de archivo: " + tipoArchivo);
+        
+    }
+
     @Override
     public void mostrarOpciones() {
         System.out.println("Auditor:");

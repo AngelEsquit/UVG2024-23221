@@ -391,7 +391,26 @@ public class Main {
                             }
                             break;
                         case 4:
-                            
+                            System.out.println("Seleccione el tipo de archivo al que desea exportar el resumen: ");
+                            System.out.println("1. CSV");
+                            System.out.println("2. JSON");
+                            System.out.println("3. XML");
+                            int tipoArchivo = scanner.nextInt();
+                            scanner.nextLine();
+                            switch (tipoArchivo) {
+                                case 1:
+                                    ((Auditor) tUsuario).exportarResumen("CSV");
+                                    break;
+                                case 2:
+                                    ((Auditor) tUsuario).exportarResumen("JSON");
+                                    break;
+                                case 3:
+                                    ((Auditor) tUsuario).exportarResumen("XML");
+                                    break;
+                                default:
+                                    System.out.println("Opción inválida");
+                                    break;
+                            }
                         default:
                             System.out.println("Opción inválida");
                             break;

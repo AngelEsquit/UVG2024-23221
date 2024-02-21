@@ -10,7 +10,7 @@ public class CSVDataSource implements IDataSource {
             FileWriter writer = new FileWriter(file);
 
             // Escribir encabezados al archivo CSV
-            writer.write("ID,First Name,Last Name\n");
+            writer.write("id,nombre,apellido\n");
 
             // Escribir cada estudiante al archivo CSV
             for (Estudiante estudiante : estudiantes) {
@@ -33,7 +33,7 @@ public class CSVDataSource implements IDataSource {
             FileWriter writer = new FileWriter(file);
 
             // Escribir encabezados al archivo CSV
-            writer.write("ID,First Name,Last Name\n");
+            writer.write("id,nombre,apellido\n");
 
             // Escribir cada curso al archivo CSV
             for (Curso curso : cursos) {
@@ -56,7 +56,7 @@ public class CSVDataSource implements IDataSource {
             FileWriter writer = new FileWriter(file);
 
             // Escribir encabezados al archivo CSV
-            writer.write("ID,First Name,Last Name\n");
+            writer.write("id,nombre,apellido\n");
 
             // Escribir cada estudiante al archivo CSV
             for (Nota nota : notas) {
@@ -73,13 +73,36 @@ public class CSVDataSource implements IDataSource {
     }
 
     @Override
-    public File guardarPagos(ArrayList<Pago> pagos, String path) {
+    public File guardarPagosD(ArrayList<Pago> pagos, String path) {
         try {
             File file = new File(path+".csv");
             FileWriter writer = new FileWriter(file);
 
             // Escribir encabezados al archivo CSV
-            writer.write("ID,First Name,Last Name\n");
+            writer.write("id,nombre,apellido\n");
+
+            // Escribir cada estudiante al archivo CSV
+            for (Docente docente : do) {
+                writer.write(String.format("%d,%s,%s\n", estudiante.getId(), estudiante.getNombre(), estudiante.getApellido()));
+            }
+
+            writer.close();
+            return file;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public File guardarPagosE(ArrayList<Pago> pagos, String path) {
+        try {
+            File file = new File(path+".csv");
+            FileWriter writer = new FileWriter(file);
+
+            // Escribir encabezados al archivo CSV
+            writer.write("id,nombre,apellido\n");
 
             // Escribir cada estudiante al archivo CSV
             for (Estudiante estudiante : estudiantes) {
