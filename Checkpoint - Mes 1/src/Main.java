@@ -218,15 +218,103 @@ public class Main {
                                     System.out.println("Ingrese el ID del curso: ");
                                     id = scanner.nextInt();
                                     scanner.nextLine();
-                                    ((PersonalAdministrativo) tUsuario).crearCurso(id, nombre);
+                                    cursos.add(((PersonalAdministrativo) tUsuario).crearCurso(id, nombre));
                                     break;
                                 default:
                                     System.out.println("Opción inválida");
                                     break;
                             }
-
                             tipo = 0;
+                            break;
+                        case 2:
+                            //Asignar estudiante a curso
+                            System.out.println("Ingrese el nombre del estudiante: ");
+                            nombre = scanner.nextLine();
+                            System.out.println("Ingrese el ID del estudiante: ");
+                            id = scanner.nextInt();
+                            scanner.nextLine();
+                            
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Estudiante) {
+                                    if (usuario.getNombre().equals(nombre) && usuario.getId() == id) {
+                                        System.out.println("Ingrese el nombre del curso: ");
+                                        nombre = scanner.nextLine();
+                                        for (Curso curso : cursos) {
+                                            if (curso.getNombre().equals(nombre)) {
+                                                ((Estudiante) usuario).getCursos().add(curso);
+                                                System.out.println("Estudiante asignado correctamente");
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 3:
+                            //Asignar catedrático a curso
+                            System.out.println("Ingrese el nombre del docente: ");
+                            nombre = scanner.nextLine();
+                            System.out.println("Ingrese el ID del docente: ");
+                            id = scanner.nextInt();
+                            scanner.nextLine();
+                            
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Docente) {
+                                    if (usuario.getNombre().equals(nombre) && usuario.getId() == id) {
+                                        System.out.println("Ingrese el nombre del curso: ");
+                                        nombre = scanner.nextLine();
+                                        for (Curso curso : cursos) {
+                                            if (curso.getNombre().equals(nombre)) {
+                                                curso.setDocente((Docente) usuario);
+                                                System.out.println("Docente asignado correctamente");
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 4:
+                            //Asignar pago a catedrático
+                            System.out.println("Ingrese el nombre del docente: ");
+                            nombre = scanner.nextLine();
+                            System.out.println("Ingrese el ID del docente: ");
+                            id = scanner.nextInt();
+                            scanner.nextLine();
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Docente) {
+                                    if (usuario.getNombre().equals(nombre) && usuario.getId() == id) {
+                                        System.out.println("Ingrese la fecha del pago: ");
+                                        String fecha = scanner.nextLine();
+                                        System.out.println("Ingrese el monto del pago: ");
+                                        int monto = scanner.nextInt();
+                                        scanner.nextLine();
+                                        ((Docente) usuario).realizarPago(fecha, monto);
+                                        System.out.println("Cobro realizado correctamente");
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+                        case 5:
+                            //Resumen de Notas y Resumen de Pagos de Estudiantes
+                            System.out.println("Resumen de Notas");
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Estudiante) {
+                                    System.out.println("Nombre: " + usuario.getNombre());
+                                    for (Curso curso : ((Estudiante) usuario).getCursos()) {
+                                        System.out.println("Curso: " + curso.getNombre() + " Nota: " + curso.getNota());
+                                    }
+                                }
+                            }
 
+                            System.out.println("Resumen de Pagos de Estudiantes");
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Estudiante) {
+                                    System.out.println("Nombre: " + usuario.getNombre());
+                                    ((Estudiante) usuario).consultarPagos();
+                                }
+                            }
                             break;
                         default:
                             System.out.println("Opción inválida");
@@ -239,6 +327,31 @@ public class Main {
                     System.out.println("Ingrese la opción que desea realizar: ");
                     opcion = scanner.nextInt();
                     scanner.nextLine();
+
+                    switch (opcion) {
+                        case 1:
+                            System.out.println("Ingrese el nombre del estudiante: ");
+                            nombre = scanner.nextLine();
+                            System.out.println("Ingrese el nombre del curso: ");
+                            String curso = scanner.nextLine();
+                            System.out.println("Ingrese la nota del estudiante: ");
+                            int nota = scanner.nextInt();
+                            ((Auditor) tUsuario).revisarNotas(usuarios, nombre, curso, nota);
+                            break;
+                        case 2:
+                            System.out.println("Ingrese el nombre del estudiante: ");
+                            nombre = scanner.nextLine();
+                            ((Auditor) tUsuario).revisarPagosEstudiante(usuarios, nombre);
+                            break;
+                        case 3:
+                            System.out.println("Ingrese el nombre del docente: ");
+                            nombre = scanner.nextLine();
+                            ((Auditor) tUsuario).revisarPagosDocente(usuarios, nombre);
+                            break;
+                        default:
+                            System.out.println("Opción inválida");
+                            break;
+                    }
                     break;
                 default:
                     System.out.println("Opción inválida");

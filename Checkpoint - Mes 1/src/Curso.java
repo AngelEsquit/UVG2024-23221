@@ -1,8 +1,7 @@
-import java.util.ArrayList;
-
 public class Curso {
     private String nombre;
     private double nota;
+    private Docente docente;
 
     public Curso(String nombre, double nota) {
         this.nombre = nombre;
@@ -23,5 +22,13 @@ public class Curso {
 
     public void setNota(double nota) {
         this.nota = nota;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 }
