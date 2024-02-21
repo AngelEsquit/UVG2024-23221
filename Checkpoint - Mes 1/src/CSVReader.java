@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CSVReader {
-    // Variable para saltar la primera fila de encabezados
-    boolean primera_fila = true;
-
-    // Variables para almacenar los datos de los jugadores
     int conteo = -1;
 
     String columna1;
@@ -17,7 +13,12 @@ public class CSVReader {
     String columna5;
     String columna6;
 
+    public CSVReader() {
+    }
+
     public ArrayList<Usuario> ReadCSVEstudiantes(String csvFilePath) {
+        int conteo = -1;
+        boolean primera_fila = true;
         ArrayList<Usuario> estudiantes = new ArrayList<Usuario>();
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath))) { // Lector de CSV
             String line;
@@ -59,9 +60,11 @@ public class CSVReader {
     }
 
     public ArrayList<String> ReadCSVCursos(String csvFilePath) {
+        int conteo = -1;
         ArrayList<String> cursos = new ArrayList<String>();
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath))) { // Lector de CSV
             String line;
+            boolean primera_fila = true; // Add this line to skip the first row
             while ((line = csvReader.readLine()) != null) {
                 if (primera_fila) {
                     primera_fila = false;
@@ -89,7 +92,7 @@ public class CSVReader {
                     }
                 }
 
-                cursos.add(columna1); // Crear un nuevo curso
+                cursos.add(columna2); // Crear un nuevo curso
                 System.out.println(); // Salto de línea para cada fila
                 conteo = -1;
             }
@@ -100,10 +103,11 @@ public class CSVReader {
     }
 
     public ArrayList<ArrayList<String>> ReadCSVNotas(String csvFilePath) {
+        int conteo = -1;
         ArrayList<ArrayList<String>> notas = new ArrayList<ArrayList<String>>();
-        ArrayList<String> notasTemp = new ArrayList<String>();
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath))) { // Lector de CSV
             String line;
+            boolean primera_fila = true;
             while ((line = csvReader.readLine()) != null) {
                 if (primera_fila) {
                     primera_fila = false;
@@ -111,6 +115,7 @@ public class CSVReader {
                 }
 
                 String[] data = line.split(";");
+                ArrayList<String> notasTemp = new ArrayList<String>(); // Create a new ArrayList for each row
                 for (String datos : data) {
                     conteo += 1;
 
@@ -133,7 +138,7 @@ public class CSVReader {
                 notasTemp.add(columna1);
                 notasTemp.add(columna2);
                 notasTemp.add(columna3);
-                notas.add(notasTemp); // Agergar notas de un estudiante
+                notas.add(notasTemp); // Add the ArrayList to the main ArrayList
                 System.out.println(); // Salto de línea para cada fila
                 conteo = -1;
             }
@@ -144,8 +149,9 @@ public class CSVReader {
     }
 
     public ArrayList<ArrayList<String>> ReadCSVPagosD(String csvFilePath) {
+        int conteo = -1;
+        boolean primera_fila = true;
         ArrayList<ArrayList<String>> pagos = new ArrayList<ArrayList<String>>();
-        ArrayList<String> pagosTemp = new ArrayList<String>();
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath))) { // Lector de CSV
             String line;
             while ((line = csvReader.readLine()) != null) {
@@ -155,6 +161,7 @@ public class CSVReader {
                 }
 
                 String[] data = line.split(";");
+                ArrayList<String> pagosTemp = new ArrayList<String>(); // Create a new ArrayList for each row
                 for (String datos : data) {
                     conteo += 1;
 
@@ -188,8 +195,9 @@ public class CSVReader {
     }
 
     public ArrayList<ArrayList<String>> ReadCSVPagosE(String csvFilePath) {
+        int conteo = -1;
+        boolean primera_fila = true;
         ArrayList<ArrayList<String>> pagos = new ArrayList<ArrayList<String>>();
-        ArrayList<String> pagosTemp = new ArrayList<String>();
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath))) { // Lector de CSV
             String line;
             while ((line = csvReader.readLine()) != null) {
@@ -199,6 +207,7 @@ public class CSVReader {
                 }
 
                 String[] data = line.split(";");
+                ArrayList<String> pagosTemp = new ArrayList<String>(); // Create a new ArrayList for each row
                 for (String datos : data) {
                     conteo += 1;
 
@@ -221,7 +230,7 @@ public class CSVReader {
                 pagosTemp.add(columna1);
                 pagosTemp.add(columna2);
                 pagosTemp.add(columna3);
-                pagos.add(pagosTemp); // Agergar pagos de un estudiante
+                pagos.add(pagosTemp); // Agregar pagos de un estudiante
                 System.out.println(); // Salto de línea para cada fila
                 conteo = -1;
             }

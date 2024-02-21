@@ -1,9 +1,8 @@
 public class DatasourceFactory {
     
-    public static final int CSV_TYPE = 0;
-    public static final int XML_TYPE = 1;
+    public static final int CSV_TYPE = 1;
+    public static final int XML_TYPE = 3;
     public static final int JSON_TYPE = 2;
-    public static final int TXT_TYPE = 2;
 
     public static IDataSource getDataSourceInstance(int fomarType){
         switch (fomarType) {
@@ -20,6 +19,4 @@ public class DatasourceFactory {
                 return new CSVDataSource();
         }
     }
-
-    
 }

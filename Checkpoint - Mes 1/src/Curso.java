@@ -1,11 +1,24 @@
+import java.util.Random;
+
 public class Curso {
+    private int id;
     private String nombre;
     private double nota;
-    private Docente docente;
+    private int idDocente;
+    private Random random = new Random();
 
-    public Curso(String nombre, double nota) {
+    public Curso(String nombre) {
         this.nombre = nombre;
-        this.nota = nota;
+        this.id = random.nextInt(0, 40);
+        this.idDocente = random.nextInt(0, 40);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -24,11 +37,11 @@ public class Curso {
         this.nota = nota;
     }
 
-    public Docente getDocente() {
-        return docente;
+    public int getDocente() {
+        return idDocente;
     }
 
-    public void setDocente(Docente docente) {
-        this.docente = docente;
+    public void setDocente(int docente) {
+        this.idDocente = docente;
     }
 }

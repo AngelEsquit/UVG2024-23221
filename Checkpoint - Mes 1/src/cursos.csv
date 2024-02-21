@@ -1,1 +1,7 @@
-id;nombre;docente
+id;nombre;iddocente
+1;Matematicas;1
+2;Fisica;2
+3;Quimica;3
+4;Biologia;4
+5;Historia;5
+6;Geografia;6

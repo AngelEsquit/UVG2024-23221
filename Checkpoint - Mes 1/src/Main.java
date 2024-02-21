@@ -1,69 +1,28 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/* Utilizando el patron de diseño "Factory" cree un programa que permita el acceso el sistema universitario para Estudiantes, Docentes, Personal Administrativo y Auditoría Externa.
-
-Al ingresar a través del mismo "Login" se les mostrará diferentes opciones:
-
-Estudiante:
-
-Consultar nota de una clase específica
-Realizar Pago
-Consultar Pagos.
-
-Docente:
-
-Ingresar notas de los estudiantes en una clase en específico (La clase debe estar creada y los estudiantes asignados, el catedrático debe tener rol de catedrático).
-Cobrar Pago.
-Historial de Pagos
-
-Personal Administrativo:
-
-Crear Cursos, Docentes y Estudiantes
-Asignar estudiante a curso
-Asignar catedrático a curso
-Asignar pago a catedrático
-Resumen de Notas y Resumen de Pagos de Estudiantes.
-
-Auditor:
-
-Revisará notas
-Revisara coutas pagadas de estudiantes
-Revisará Pagos a docentes
-Cree las estructuras y los algoritmos necesarios, sabiendo que los resumenes se pueden exportar en cualquier formato, utilice la clase "Factory" en donde lo considere adecuado, está de más decirlo pero toda esta información se debe guardar en archivos, seleccione el formato que considere adecuado.
-
-
-un resumen de la estructura de los archivos CSV que necesitas para tu programa en Java:
-
-Estudiantes:
-
-ID del estudiante (int)
-Nombre (String)
-Apellido (String)
-
-
-Cursos:
-
-ID del curso (int)
-Nombre del curso (String)
-Nota (int)
-
-
-Notas:
-
-ID del estudiante (int)
-Nombre del curso (String)
-Nota (double)
-
-
-Pagos:
-
-ID del estudiante (int)
-Monto pagado (double)
-Fecha de pago (String)*/
-
 public class Main {
     public static void main(String[] args) {
+        CSVReader csvReader = new CSVReader();
+
+        ArrayList<Usuario> lecturaEstudiantes = new ArrayList<>();
+        lecturaEstudiantes = csvReader.ReadCSVEstudiantes("src/estudiantes.csv");
+
+        ArrayList<String> lecturaCursos = new ArrayList<>();
+        lecturaCursos = csvReader.ReadCSVCursos("src/cursos.csv");
+
+        ArrayList<ArrayList<String>> lecturaNotas = new ArrayList<>();
+        lecturaNotas = csvReader.ReadCSVNotas("src/notas.csv");
+
+        ArrayList<ArrayList<String>> lecturaPagosD = new ArrayList<>();
+        lecturaPagosD = csvReader.ReadCSVPagosD("src/pagosD.csv");
+
+        ArrayList<ArrayList<String>> lecturaPagosE = new ArrayList<>();
+        lecturaPagosE = csvReader.ReadCSVPagosE("src/pagosE.csv");
+
+        System.out.println("");
+
         ArrayList<Usuario> usuarios = new ArrayList<>();
         ArrayList<Curso> cursos = new ArrayList<>();
         int tipoUsuario = 0;
@@ -76,13 +35,96 @@ public class Main {
         String apellido;
         int id;
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el nombre de usuario: ");
-        String nombreUsuario = scanner.nextLine();
-        System.out.print("Ingrese el ID como contraseña: ");
-        int idContraseña = scanner.nextInt();
+        // Crear un usuario de tipo personal administrativo
+        PersonalAdministrativo personalAdministrativo = new PersonalAdministrativo("Juan", "Perez", 1234);
+        usuarios.add(personalAdministrativo);
+
+        // Crear un usuario de tipo auditor
+        Auditor auditor = new Auditor("Pedro", "Gonzalez", 5678);
+        usuarios.add(auditor);
+
+        // Crear un usuario de tipo docente
+        Docente docente = new Docente(123, "Carlos", "Gomez");
+        usuarios.add(docente);
+
+        // Creación de usuarios
+        for (Usuario estudiante : lecturaEstudiantes) {
+            usuarios.add(estudiante);
+        }
+
+        // Creación de cursos
+        for (String curso : lecturaCursos) {
+            cursos.add(new Curso(curso));
+        }
+
+        // Asignación de notas
+        for (ArrayList<String> nota : lecturaNotas) {
+            for (Usuario usuario : usuarios) {
+                if (usuario.getNombre().equals(nota.get(0)) && usuario.getId() == Integer.parseInt(nota.get(1))) {
+                    for (Curso curso : ((Estudiante) usuario).getCursos()) {
+                        if (curso.getNombre().equals(nota.get(1))) {
+                            curso.setNota(Double.parseDouble(nota.get(2)));
+                        }
+                    }
+                }
+            }
+        }
+
+        // Asignación de pagos de docentes
+        for (ArrayList<String> pagoD : lecturaPagosD) {
+            for (Usuario usuario : usuarios) {
+                if (usuario.getId() == Integer.parseInt(pagoD.get(0)) && usuario instanceof Docente) {
+                    ((Docente) usuario).realizarPago(pagoD.get(1), Integer.parseInt(pagoD.get(2)));
+                }
+            }
+        }
+
+        // Asignación de pagos de estudiantes
+        for (ArrayList<String> pagoE : lecturaPagosE) {
+            for (Usuario usuario : usuarios) {
+                if (usuario.getId() == Integer.parseInt(pagoE.get(0)) && usuario instanceof Estudiante) {
+                    ((Estudiante) usuario).realizarPago(pagoE.get(2), Integer.parseInt(pagoE.get(2)));
+                }
+            }
+        }
+
+        // Separar usuarios por tipo
+        ArrayList<Estudiante> estudiantes = new ArrayList<>();
+        ArrayList<Docente> docentes = new ArrayList<>();
+
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Estudiante) {
+                estudiantes.add((Estudiante) usuario);
+            } else if (usuario instanceof Docente) {
+                docentes.add((Docente) usuario);
+            }
+        }
 
         // Lógica de inicio de sesión
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Bienvenido al sistema de la universidad");
+        System.out.println("");
+        System.out.println("Usuarios de prueba: ");
+        System.out.println("Estudiante: ");
+        System.out.println("Nombre: Juan, ID: 1");
+        System.out.println("");
+        System.out.println("Docente: ");
+        System.out.println("Nombre: Carlos, ID: 123");
+        System.out.println("");
+        System.out.println("Personal Administrativo: ");
+        System.out.println("Nombre: Juan, ID: 1234");
+        System.out.println("");
+        System.out.println("Auditor: ");
+        System.out.println("Nombre: Pedro, ID: 5678");
+        System.out.println("");
+        System.out.print("Ingrese el nombre de usuario: ");
+        String nombreUsuario = scanner.nextLine();
+        System.out.println(nombreUsuario);
+        System.out.print("Ingrese el ID como contraseña: ");
+        int idContraseña = scanner.nextInt();
+        System.out.println(idContraseña);
+        scanner.nextLine();
 
         for (Usuario usuario : usuarios) {
             if (usuario.getId() == idContraseña && usuario.getNombre().equals(nombreUsuario)) {
@@ -220,7 +262,7 @@ public class Main {
                                     System.out.println("Ingrese el ID del curso: ");
                                     id = scanner.nextInt();
                                     scanner.nextLine();
-                                    cursos.add(((PersonalAdministrativo) tUsuario).crearCurso(id, nombre));
+                                    cursos.add(((PersonalAdministrativo) tUsuario).crearCurso(nombre));
                                     break;
                                 default:
                                     System.out.println("Opción inválida");
@@ -267,7 +309,7 @@ public class Main {
                                         nombre = scanner.nextLine();
                                         for (Curso curso : cursos) {
                                             if (curso.getNombre().equals(nombre)) {
-                                                curso.setDocente((Docente) usuario);
+                                                curso.setDocente(usuario.getId());
                                                 System.out.println("Docente asignado correctamente");
                                                 break;
                                             }
@@ -399,13 +441,13 @@ public class Main {
                             scanner.nextLine();
                             switch (tipoArchivo) {
                                 case 1:
-                                    ((Auditor) tUsuario).exportarResumen("CSV");
+                                    ((Auditor) tUsuario).exportarResumen(1, estudiantes, cursos, docentes);
                                     break;
                                 case 2:
-                                    ((Auditor) tUsuario).exportarResumen("JSON");
+                                    ((Auditor) tUsuario).exportarResumen(2, estudiantes, cursos, docentes);
                                     break;
                                 case 3:
-                                    ((Auditor) tUsuario).exportarResumen("XML");
+                                    ((Auditor) tUsuario).exportarResumen(3, estudiantes, cursos, docentes);
                                     break;
                                 default:
                                     System.out.println("Opción inválida");

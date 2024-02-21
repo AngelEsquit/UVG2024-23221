@@ -1,12 +1,12 @@
 public class Nota {
     private double nota;
     private int idEstudiante;
-    private String nombreCurso;
+    private int idCurso;
 
-    public Nota(int nota, int idEstudiante,String nombreCurso) {
+    public Nota(int nota, int idEstudiante, int idCurso) {
         this.nota = nota;
         this.idEstudiante = idEstudiante;
-        this.nombreCurso = nombreCurso;
+        this.idCurso = idCurso;
     }
 
     public double getNota() {
@@ -25,11 +25,11 @@ public class Nota {
         this.idEstudiante = idEstudiante;
     }
 
-    public String getNombreCurso() {
-        return nombreCurso;
+    public int getIdCurso() {
+        return idCurso;
     }
 
-    public void setNombreCurso(String nombreCurso) {
-        this.nombreCurso = nombreCurso;
+    public void setIdCurso(int idCurso) {
+        this.idCurso = idCurso;
     }
 }

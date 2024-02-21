@@ -81,8 +81,8 @@ public class Docente implements Usuario {
     @Override
     public void mostrarOpciones() {
         System.out.println("Docente:");
-        System.out.println("Consultar Notas de Estudiantes");
-        System.out.println("Ingresar Notas");
-        System.out.println("Consultar Asistencia");
+        System.out.println("1. Consultar Notas de Estudiantes");
+        System.out.println("2. Ingresar Notas");
+        System.out.println("3. Consultar Asistencia");
     }
 }

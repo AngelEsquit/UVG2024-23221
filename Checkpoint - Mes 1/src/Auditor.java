@@ -1,7 +1,15 @@
+import java.util.ArrayList;
+
 public class Auditor implements Usuario {
     private String nombre;
     private String apellido;
     private int id;
+
+    public Auditor(String nombre, String apellido, int id) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -51,17 +59,23 @@ public class Auditor implements Usuario {
         }
     }
 
-    public void exportarResumen(String tipoArchivo) {
+    public void exportarResumen(int tipoArchivo, ArrayList<Estudiante> estudiantes, ArrayList<Curso> cursos, ArrayList<Docente> docentes) {
         System.out.println("Exportando resumen de notas, asistencia y pagos");
         System.out.println("Tipo de archivo: " + tipoArchivo);
         
-    }
+        DatasourceFactory.getDataSourceInstance(tipoArchivo).guardarEstudiantes(estudiantes, "test/estudiantes");
+        DatasourceFactory.getDataSourceInstance(tipoArchivo).guardarCursos(cursos, "test/cursos");
+        DatasourceFactory.getDataSourceInstance(tipoArchivo).guardarNotas(estudiantes, "test/notas");
+        DatasourceFactory.getDataSourceInstance(tipoArchivo).guardarPagosE(estudiantes, "test/pagosE");
+        DatasourceFactory.getDataSourceInstance(tipoArchivo).guardarPagosD(docentes, "test/pagosD");
+    }   
 
     @Override
     public void mostrarOpciones() {
         System.out.println("Auditor:");
-        System.out.println("Consultar Notas de Estudiantes");
-        System.out.println("Consultar Asistencia");
-        System.out.println("Consultar Pagos");
+        System.out.println("1. Consultar Notas de Estudiantes");
+        System.out.println("2. Consultar Asistencia");
+        System.out.println("3. Consultar Pagos");
+        System.out.println("4. Exportar Resumen");
     }
 }

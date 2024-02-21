@@ -75,8 +75,8 @@ public class Estudiante implements Usuario {
     @Override
     public void mostrarOpciones() {
         System.out.println("Estudiante:");
-        System.out.println("Consultar nota de una clase específica");
-        System.out.println("Realizar Pago");
-        System.out.println("Consultar Pagos.");
+        System.out.println("1. Consultar nota de una clase específica");
+        System.out.println("2. Realizar Pago");
+        System.out.println("3. Consultar Pagos.");
     }
 }

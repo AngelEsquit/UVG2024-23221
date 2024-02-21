@@ -3,6 +3,12 @@ public class PersonalAdministrativo implements Usuario {
     private String apellido;
     private int id;
 
+    public PersonalAdministrativo(String nombre, String apellido, int id) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -35,15 +41,15 @@ public class PersonalAdministrativo implements Usuario {
         return new Docente(id, nombre, apellido);
     }
 
-    public Curso crearCurso(int id, String nombre) {
-        return new Curso(nombre, id);
+    public Curso crearCurso(String nombre) {
+        return new Curso(nombre);
     }
 
     @Override
     public void mostrarOpciones() {
-        System.out.println("Personal Administrativo:");
-        System.out.println("Ingresar Notas");
-        System.out.println("Consultar Asistencia");
-        System.out.println("Consultar Pagos");
+        System.out.println("1. Personal Administrativo:");
+        System.out.println("2. Ingresar Notas");
+        System.out.println("3. Consultar Asistencia");
+        System.out.println("4. Consultar Pagos");
     }
 }
