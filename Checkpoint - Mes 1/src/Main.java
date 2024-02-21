@@ -25,7 +25,7 @@ Asignar catedrático a curso
 Asignar pago a catedrático
 Resumen de Notas y Resumen de Pagos de Estudiantes.
 
-Auditor Externo:
+Auditor:
 
 Revisará notas
 Revisara coutas pagadas de estudiantes
@@ -63,6 +63,11 @@ Fecha de pago (String)*/
 public class Main {
     public static void main(String[] args) {
         ArrayList<Usuario> usuarios = new ArrayList<>();
+        int tipoUsuario = 0;
+        boolean encontrado = false;
+        Usuario tUsuario = null;
+        int cursoNum = 1;
+        int opcion = 0;
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el nombre de usuario: ");
@@ -75,36 +80,120 @@ public class Main {
         for (Usuario usuario : usuarios) {
             if (usuario.getId() == idContraseña && usuario.getNombre().equals(nombreUsuario)) {
                 System.out.println("Bienvenido " + usuario.getNombre());
+
                 if (usuario instanceof Estudiante) {
-                    usuario.mostrarOpciones();
+                    tipoUsuario = 1;
+                    encontrado = true;
                 } else if (usuario instanceof Docente) {
-                    usuario.mostrarOpciones();
+                    tipoUsuario = 2;
+                    encontrado = true;
                 } else if (usuario instanceof PersonalAdministrativo) {
-                    usuario.mostrarOpciones();
-                } else if (usuario instanceof AuditorExterno) {
-                    usuario.mostrarOpciones();
+                    tipoUsuario = 3;
+                    encontrado = true;
+                } else if (usuario instanceof Auditor) {
+                    tipoUsuario = 4;
+                    encontrado = true;
                 }
+
+                tUsuario = usuario;
+                break;
             }
         }
 
-        int option = scanner.nextInt();
-        
-        switch (option) {
-            case 1:
-                // Estudiante login logic
-                break;
-            case 2:
-                // Docente login logic
-                break;
-            case 3:
-                // Personal Administrativo login logic
-                break;
-            case 4:
-                // Auditor Externo login logic
-                break;
-            default:
-                System.out.println("Opción inválida");
-                break;
+        if (encontrado) {
+            switch (tipoUsuario) {
+                case 1:
+                    // Estudiante login logic
+                    tUsuario.mostrarOpciones();
+                    System.out.println("Ingrese la opción que desea realizar: ");
+                    opcion = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (opcion) {
+                        case 1:
+                            for (Curso curso : ((Estudiante) tUsuario).getCursos()) {
+                                System.out.println(cursoNum + curso.getNombre());
+                                cursoNum += 1;
+                            }
+
+                            System.out.println("Ingrese el curso que desee consultar: ");
+                            opcion = scanner.nextInt();
+            
+                            ((Estudiante) tUsuario).consultarNota(((Estudiante) tUsuario).getCursos().get(opcion - 1).getNombre());
+                            break;
+                        case 2:
+                            System.out.println("Ingrese la fecha del pago: ");
+                            String fecha = scanner.nextLine();
+                            System.out.println("Ingrese el monto del pago: ");
+                            int monto = scanner.nextInt();
+                            ((Estudiante) tUsuario).realizarPago(fecha, monto);
+                            break;
+                        case 3:
+                            ((Estudiante) tUsuario).consultarPagos();
+                            break;
+                        default:
+                            System.out.println("Opción inválida");
+                            break;
+                    }
+                    break;
+                case 2:
+                    // Docente login logic
+                    tUsuario.mostrarOpciones();
+                    System.out.println("Ingrese la opción que desea realizar: ");
+                    opcion = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (opcion) {
+                        case 1:
+                            System.out.println("Ingrese el nombre del estudiante: ");
+                            String nombre = scanner.nextLine();
+                            System.out.println("Ingrese el nombre del curso: ");
+                            String curso = scanner.nextLine();
+                            System.out.println("Ingrese la nota del estudiante: ");
+                            int nota = scanner.nextInt();
+                            ((Docente) tUsuario).ingresarNota(usuarios, (Estudiante)tUsuario, curso, nota);
+                            break;
+                        case 2:
+                            System.out.println("Ingrese la fecha del pago: ");
+                            String fecha = scanner.nextLine();
+                            System.out.println("Ingrese el monto del pago: ");
+                            int monto = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.println("Cobro realizado correctamente");
+                            break;
+                        case 3:
+                            ((Docente) tUsuario).historialPagos();
+                            break;
+                        default:
+                            System.out.println("Opción inválida");
+                            break;
+                    }
+                    break;
+                case 3:
+                    // Personal Administrativo login logic
+                    tUsuario.mostrarOpciones();
+                    System.out.println("Ingrese la opción que desea realizar: ");
+                    opcion = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                case 4:
+                    // Auditor Externo login logic
+                    tUsuario.mostrarOpciones();
+                    System.out.println("Ingrese la opción que desea realizar: ");
+                    opcion = scanner.nextInt();
+                    scanner.nextLine();
+                    break;
+                default:
+                    System.out.println("Opción inválida");
+                    break;
+            }
+        } else {
+            System.out.println("Usuario no encontrado");
         }
+
+        tipoUsuario = 0;
+        encontrado = false;
+        tUsuario = null;
+        cursoNum = 1;
+        opcion = 0;
     }
 }

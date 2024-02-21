@@ -1,5 +1,5 @@
 public class Nota {
-    private int nota;
+    private double nota;
     private int idEstudiante;
     private String nombreCurso;
 
@@ -9,7 +9,7 @@ public class Nota {
         this.nombreCurso = nombreCurso;
     }
 
-    public int getNota() {
+    public double getNota() {
         return nota;
     }
 

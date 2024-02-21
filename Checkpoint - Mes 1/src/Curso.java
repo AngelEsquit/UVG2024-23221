@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Curso {
     private String nombre;
-    private int nota;
+    private double nota;
 
-    public Curso(String nombre, int nota) {
+    public Curso(String nombre, double nota) {
         this.nombre = nombre;
         this.nota = nota;
     }
@@ -17,11 +17,11 @@ public class Curso {
         this.nombre = nombre;
     }
 
-    public int getNota() {
+    public double getNota() {
         return nota;
     }
 
-    public void setNota(int nota) {
+    public void setNota(double nota) {
         this.nota = nota;
     }
 }
