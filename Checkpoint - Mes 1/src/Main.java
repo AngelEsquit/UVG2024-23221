@@ -31,6 +31,8 @@ Revisará notas
 Revisara coutas pagadas de estudiantes
 Revisará Pagos a docentes
 Cree las estructuras y los algoritmos necesarios, sabiendo que los resumenes se pueden exportar en cualquier formato, utilice la clase "Factory" en donde lo considere adecuado, está de más decirlo pero toda esta información se debe guardar en archivos, seleccione el formato que considere adecuado.
+
+
 un resumen de la estructura de los archivos CSV que necesitas para tu programa en Java:
 
 Estudiantes:
@@ -330,24 +332,66 @@ public class Main {
 
                     switch (opcion) {
                         case 1:
+                            encontrado = false;
                             System.out.println("Ingrese el nombre del estudiante: ");
                             nombre = scanner.nextLine();
-                            System.out.println("Ingrese el nombre del curso: ");
-                            String curso = scanner.nextLine();
-                            System.out.println("Ingrese la nota del estudiante: ");
-                            int nota = scanner.nextInt();
-                            ((Auditor) tUsuario).revisarNotas(usuarios, nombre, curso, nota);
+                            System.out.println("Ingrese el id del estudiante: ");
+                            id = scanner.nextInt();
+                            scanner.nextLine();
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Estudiante) {
+                                    if (usuario.getNombre().equals(nombre) && usuario.getId() == id) {
+                                        ((Auditor) tUsuario).revisarNotas((Estudiante) usuario);
+                                        encontrado = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!encontrado) {
+                                System.out.println("Estudiante no encontrado");
+                            }
                             break;
                         case 2:
+                            encontrado = false;
                             System.out.println("Ingrese el nombre del estudiante: ");
                             nombre = scanner.nextLine();
-                            ((Auditor) tUsuario).revisarPagosEstudiante(usuarios, nombre);
+                            System.out.println("Ingrese el id del estudiante: ");
+                            id = scanner.nextInt();
+                            scanner.nextLine();
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Estudiante) {
+                                    if (usuario.getNombre().equals(nombre) && usuario.getId() == id) {
+                                        ((Auditor) tUsuario).revisarPagosEstudiante((Estudiante) usuario);
+                                        encontrado = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!encontrado) {
+                                System.out.println("Estudiante no encontrado");
+                            }
                             break;
                         case 3:
+                            encontrado = false;
                             System.out.println("Ingrese el nombre del docente: ");
                             nombre = scanner.nextLine();
-                            ((Auditor) tUsuario).revisarPagosDocente(usuarios, nombre);
+                            System.out.println("Ingrese el id del docente: ");
+                            id = scanner.nextInt();
+                            scanner.nextLine();
+                            for (Usuario usuario : usuarios) {
+                                if (usuario instanceof Docente) {
+                                    if (usuario.getNombre().equals(nombre) && usuario.getId() == id) {
+                                        ((Auditor) tUsuario).revisarPagosDocente((Docente) usuario);
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!encontrado) {
+                                System.out.println("Estudiante no encontrado");
+                            }
                             break;
+                        case 4:
+                            
                         default:
                             System.out.println("Opción inválida");
                             break;

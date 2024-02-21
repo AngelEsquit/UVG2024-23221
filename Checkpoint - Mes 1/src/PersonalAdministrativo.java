@@ -39,7 +39,6 @@ public class PersonalAdministrativo implements Usuario {
         return new Curso(nombre, id);
     }
 
-
     @Override
     public void mostrarOpciones() {
         System.out.println("Personal Administrativo:");

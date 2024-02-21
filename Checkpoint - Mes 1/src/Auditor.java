@@ -27,6 +27,30 @@ public class Auditor implements Usuario {
         this.id = id;
     }
 
+    public void revisarNotas(Estudiante estudiante) {
+        System.out.println("Notas de " + estudiante.getNombre() + " " + estudiante.getApellido());
+        for (Curso curso : estudiante.getCursos()) {
+            System.out.println("Curso: " + curso.getNombre());
+            System.out.println("Nota: " + curso.getNota());
+        }
+    }
+
+    public void revisarPagosEstudiante(Estudiante estudiante) {
+        System.out.println("Pagos de " + estudiante.getNombre() + " " + estudiante.getApellido());
+        for (Pago pago : estudiante.getPagos()) {
+            System.out.println("Fecha: " + pago.getFecha());
+            System.out.println("Monto: " + pago.getMonto());
+        }
+    }
+
+    public void revisarPagosDocente(Docente docente) {
+        System.out.println("Pagos de " + docente.getNombre() + " " + docente.getApellido());
+        for (Pago pago : docente.getPagos()) {
+            System.out.println("Fecha: " + pago.getFecha());
+            System.out.println("Monto: " + pago.getMonto());
+        }
+    }
+
     @Override
     public void mostrarOpciones() {
         System.out.println("Auditor:");
