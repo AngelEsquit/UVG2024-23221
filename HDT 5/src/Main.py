@@ -57,6 +57,7 @@ import simpy
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
 
 # Parametros
 RANDOM_SEED = 42
@@ -65,20 +66,22 @@ INTERVALO = 10
 NUM_PROCESOS = [25, 50, 100, 150, 200]
 TIEMPOS = []
 DESVIACIONES = []
+TIEMPOS_PROMEDIO = []
 
 # Semilla
 random.seed(RANDOM_SEED)
 
 # Funciones
+sys.stdout = open('src/Resultados.txt', 'w')
 
-def proceso(env, nombre, RAM, CPU, instrucciones, memoria):
+def proceso(env, nombre, RAM, CPU, instrucciones, memoria, start_event):
+    yield start_event
     global TIEMPOS
-    global DESVIACIONES
     # New
     yield env.timeout(random.expovariate(1.0 / INTERVALO))
-    print('%s solicita %d de memoria RAM (new)' % (nombre, memoria))
+    print('%s solicita %d de memoria RAM (new)' % (nombre, memoria) + " en el tiempo " + str(env.now))
     yield RAM.get(memoria)
-    print('%s obtiene %d de memoria RAM (new)' % (nombre, memoria))
+    print('%s obtiene %d de memoria RAM (new)' % (nombre, memoria)  + " en el tiempo " + str(env.now))
     # Ready
     instrucciones -= 3
     while instrucciones > 0:
@@ -90,46 +93,41 @@ def proceso(env, nombre, RAM, CPU, instrucciones, memoria):
             else:
                 instrucciones -= 3
             yield env.timeout(1)
-            print('%s ejecuta instrucciones, faltan %d' % (nombre, instrucciones))
+            print('%s ejecuta instrucciones, faltan %d' % (nombre, instrucciones)  + " en el tiempo " + str(env.now))
             # Terminated
     yield RAM.put(memoria)
-    print('%s devuelve %d de memoria RAM (terminated)' % (nombre, memoria))
+    print('%s devuelve %d de memoria RAM (terminated)' % (nombre, memoria)  + " en el tiempo " + str(env.now))
     TIEMPOS.append(env.now)
-    print('%s termina en %f' % (nombre, env.now))
+    print('%s termina en %f' % (nombre, env.now)  + " en el tiempo " + str(env.now))
 
-# Simulacion
-
+# Simulación
 for n in NUM_PROCESOS:
     env = simpy.Environment()
     RAM = simpy.Container(env, init=100, capacity=100)
     CPU = simpy.Resource(env, capacity=1)
     TIEMPOS = []
+    start_events = [simpy.events.Event(env) for _ in range(n)]
     for i in range(n):
         instrucciones = random.randint(1, 10)
         memoria = random.randint(1, 10)
-        env.process(proceso(env, 'Proceso %d' % i, RAM, CPU, instrucciones, memoria))
+        env.process(proceso(env, 'Proceso %d' % i, RAM, CPU, instrucciones, memoria, start_events[i]))
+    for event in start_events:
+        event.succeed()  # Iniciar procesos en orden
     env.run()
-    print('Tiempo promedio con %d procesos: %f' % (n, np.mean(TIEMPOS)))
-    print('Desviacion estandar con %d procesos: %f' % (n, np.std(TIEMPOS)))
+    TIEMPOS = np.array(TIEMPOS)
+    promedio = np.mean(TIEMPOS)
+    TIEMPOS_PROMEDIO.append(promedio)
+    print('\n\n\nTiempo promedio con %d procesos: %f' % (n, promedio))
+    print('Desviacion estandar con %d procesos: %f' % (n, np.std(TIEMPOS)) + "\n\n\n")
     DESVIACIONES.append(np.std(TIEMPOS))
-    print('')
 
-plt.plot(NUM_PROCESOS, DESVIACIONES)
+#Impresión de los datos
+    
+sys.stdout = sys.__stdout__
+
+plt.errorbar(NUM_PROCESOS, TIEMPOS_PROMEDIO, yerr = DESVIACIONES, fmt = 'o')
+plt.plot(NUM_PROCESOS, TIEMPOS_PROMEDIO)
 plt.xlabel('Número de procesos')
-plt.ylabel('Desviación estándar')
-plt.title('Desviación estándar vs Número de procesos')
+plt.ylabel('Tiempo promedio')
+plt.title('Tiempo promedio vs Número de procesos')
 plt.show()
-
-# Resultados
-'''
-Tiempo promedio con 25 procesos: 17.000000
-Desviacion estandar con 25 procesos: 8.000000
-Tiempo promedio con 50 procesos: 33.000000
-Desviacion estandar con 50 procesos: 14.000000
-Tiempo promedio con 100 procesos: 68.000000
-Desviacion estandar con 100 procesos: 31.000000
-Tiempo promedio con 150 procesos: 102.000000
-Desviacion estandar con 150 procesos: 45.000000
-Tiempo promedio con 200 procesos: 136.000000
-Desviacion estandar con 200 procesos: 58.000000
-'''
