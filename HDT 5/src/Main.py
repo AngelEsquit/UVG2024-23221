@@ -69,7 +69,7 @@ resultados_promedio = []
 resultados_desviacion = []
 
 for num_procesos in NUM_PROCESOS:
-    sys.stdout = open(f'{num_procesos}procesosIntervalo{INTERVALO_LLEGADA}.txt', 'w')
+    sys.stdout = open(f'{num_procesos}procesosIntervalo{INTERVALO_LLEGADA}CPU{NUM_CPUS}RAM{RAM_SIZE}.txt', 'w')
     promedio, desviacion_estandar = simulacion(num_procesos)
     resultados_promedio.append(promedio)
     resultados_desviacion.append(desviacion_estandar)
@@ -86,5 +86,5 @@ plt.xlabel('Número de Procesos')
 plt.ylabel('Tiempo Promedio')
 plt.title('Tiempo Promedio de Procesos en el Sistema Operativo')
 plt.grid(True)
-plt.savefig(f'Intervalo{INTERVALO_LLEGADA}.png') # Guardar la gráfica en un archivo
+plt.savefig(f'Intervalo{INTERVALO_LLEGADA}CPU{NUM_CPUS}RAM{RAM_SIZE}CPUSPEED{CPU_SPEED}.png') # Guardar la gráfica en un archivo
 plt.show()
