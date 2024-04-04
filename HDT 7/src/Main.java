@@ -8,8 +8,8 @@ public class Main {
         String filePathDictionary = "diccionario.txt";
         String filePathTxt = "texto.txt";
         
-        ArrayList<ArrayList<String>> dictionary = dictionaryReader(filePathDictionary);
-        for (ArrayList<String> line : dictionary) {
+        ArrayList<ArrayList<String>> dictionaryPrevious = dictionaryReader(filePathDictionary);
+        for (ArrayList<String> line : dictionaryPrevious) {
             System.out.println(line);
         }
 
@@ -18,6 +18,12 @@ public class Main {
             System.out.println(line);
         }
 
+        BinarySearchTree<String, ArrayList<String>> englishTree = new BinarySearchTree<String, ArrayList<String>>(new StringComparator<String>());
+        BinarySearchTree<String, ArrayList<String>> spanishTree = new BinarySearchTree<String, ArrayList<String>>(new StringComparator<String>());
+        BinarySearchTree<String, ArrayList<String>> frenchTree = new BinarySearchTree<String, ArrayList<String>>(new StringComparator<String>());
+
+        
+        
         printMenu();
         int option = 0;
         try {
@@ -38,6 +44,19 @@ public class Main {
                 break;
             default:
                 System.out.println("Opción no válida");
+        }
+    }
+
+    public static void insertInTree(BinarySearchTree<String, ArrayList<String>> tree, ArrayList<ArrayList<String>> dictionaryPrevious) {
+        for (String element : dictionaryPrevious.get(0)) {
+            ArrayList<String> arrayListTree = new ArrayList<String>();
+            String key = "";
+            if (dictionaryPrevious.indexOf(element) == 0) {
+                key = element;
+            } else {
+                arrayListTree.add(element);
+            }
+            tree.insert(key, arrayListTree);
         }
     }
 
