@@ -103,7 +103,7 @@ public class BinarySearchTree<K, V> implements ITree<K, V> {
             InternalInOrderWalk(actualNode.getRight(), walk);
         }
     }
-
+    
     @Override
     public void PreOrderWalk(IWalk<V> walk) {
         InternalPreOrderWalk(root, walk);

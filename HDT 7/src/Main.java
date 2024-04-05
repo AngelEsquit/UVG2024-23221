@@ -9,20 +9,43 @@ public class Main {
         String filePathTxt = "texto.txt";
         
         ArrayList<ArrayList<String>> dictionaryPrevious = dictionaryReader(filePathDictionary);
-        for (ArrayList<String> line : dictionaryPrevious) {
-            System.out.println(line);
-        }
 
         ArrayList<ArrayList<String>> text = txtReader(filePathTxt);
-        for (ArrayList<String> line : text) {
-            System.out.println(line);
-        }
 
         BinarySearchTree<String, ArrayList<String>> englishTree = new BinarySearchTree<String, ArrayList<String>>(new StringComparator<String>());
         BinarySearchTree<String, ArrayList<String>> spanishTree = new BinarySearchTree<String, ArrayList<String>>(new StringComparator<String>());
         BinarySearchTree<String, ArrayList<String>> frenchTree = new BinarySearchTree<String, ArrayList<String>>(new StringComparator<String>());
 
-        
+        insertInTree(englishTree, dictionaryPrevious, 0);
+        insertInTree(spanishTree, dictionaryPrevious, 1);
+        insertInTree(frenchTree, dictionaryPrevious, 2);
+
+        System.out.println("");
+        System.out.println("Árbol en inglés:");
+        englishTree.InOrderWalk(new IWalk<ArrayList<String>>() {
+            @Override
+            public void doWalk(ArrayList<String> value) {
+                System.out.print(value + " ");
+            }
+        });
+
+        System.out.println("\nÁrbol en español:");
+        spanishTree.InOrderWalk(new IWalk<ArrayList<String>>() {
+            @Override
+            public void doWalk(ArrayList<String> value) {
+                System.out.print(value + " ");
+            }
+        });
+
+        System.out.println("\nÁrbol en francés:");
+        frenchTree.InOrderWalk(new IWalk<ArrayList<String>>() {
+            @Override
+            public void doWalk(ArrayList<String> value) {
+                System.out.print(value + " ");
+            }
+        });
+        System.out.println("");
+        System.out.println("");
         
         printMenu();
         int option = 0;
@@ -32,31 +55,83 @@ public class Main {
             System.out.println("Opción no válida");
         }
 
+        String translatedText = "";
+
         switch (option) {
-            case 1:
-                System.out.println("Hello World");
+            case 1: // Traducir a inglés
+                translatedText = translateText(text, spanishTree, frenchTree);
+                System.out.println(translatedText);
                 break;
-            case 2:
-                System.out.println("Hola Mundo");
+            case 2: // Traducir a español
+                translatedText = translateText(text, englishTree, frenchTree);
+                System.out.println(translatedText);
                 break;
-            case 3:
-                System.out.println("Bonjour le monde");
+            case 3: // Traducir a francés
+                translatedText = translateText(text, englishTree, spanishTree);
+                System.out.println(translatedText);
                 break;
             default:
                 System.out.println("Opción no válida");
         }
     }
 
-    public static void insertInTree(BinarySearchTree<String, ArrayList<String>> tree, ArrayList<ArrayList<String>> dictionaryPrevious) {
-        for (String element : dictionaryPrevious.get(0)) {
+    public static String translateText(ArrayList<ArrayList<String>> text, BinarySearchTree<String, ArrayList<String>> tree1, BinarySearchTree<String, ArrayList<String>> tree2) {
+        String translatedText = "";
+        for (ArrayList<String> line : text) {
+            for (String word : line) {
+                ArrayList<String> translation1 = tree1.find(word.toLowerCase());
+                ArrayList<String> translation2 = tree2.find(word.toLowerCase());
+                if (translation1 != null) {
+                    translatedText += translation1.get(0) + " ";
+                } else if (translation2 != null) {
+                    translatedText += translation2.get(1) + " ";
+                } else {
+                    translatedText += "*" + word + "* ";
+                }
+            }
+            translatedText += "\n";
+        }
+        return translatedText;
+    }
+
+    public static void insertInTree(BinarySearchTree<String, ArrayList<String>> tree, ArrayList<ArrayList<String>> dictionaryPrevious, int type) {
+        for (int i = 0; i < dictionaryPrevious.size(); i++) {
             ArrayList<String> arrayListTree = new ArrayList<String>();
             String key = "";
-            if (dictionaryPrevious.indexOf(element) == 0) {
-                key = element;
-            } else {
-                arrayListTree.add(element);
+            for (String element : dictionaryPrevious.get(i)) {
+                switch (type) {
+                    case 0:
+                        if (dictionaryPrevious.get(i).indexOf(element.toLowerCase()) == 0) {
+                            key = element.toLowerCase();
+                        } else {
+                            arrayListTree.add(element.toLowerCase());
+                            continue;
+                        }
+                        break;
+                    case 1:
+                        if (dictionaryPrevious.get(i).indexOf(element.toLowerCase()) == 1) {
+                            key = element.toLowerCase();
+                        } else {
+                            arrayListTree.add(element.toLowerCase());
+                            continue;
+                        }
+                        break;
+                    case 2:
+                        if (dictionaryPrevious.get(i).indexOf(element.toLowerCase()) == 2) {
+                            key = element.toLowerCase();
+                        } else {
+                            arrayListTree.add(element.toLowerCase());
+                            continue;
+                        }
+                        break;
+                    default:
+                        key = element.toLowerCase();
+                }
             }
-            tree.insert(key, arrayListTree);
+
+            if (key != "") {
+                tree.insert(key, arrayListTree);
+            }
         }
     }
 
